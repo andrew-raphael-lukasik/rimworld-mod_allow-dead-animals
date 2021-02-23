@@ -1,47 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-
-using UnityEngine;
+﻿using System.Threading.Tasks;
+// using UnityEngine;
 using Verse;
-using Verse.AI;
-using Verse.AI.Group;
-using Verse.Sound;
-using Verse.Noise;
-using Verse.Grammar;
 using RimWorld;
-using RimWorld.Planet;
 
-//using System.Reflection;
-//using HarmonyLib;
-
-namespace Template
+namespace AllowDeadAnimals
 {
-    [DefOf]
-    public class TemplateDefOf
-    {
-        public static LetterDef success_letter;
-    }
-
     public class MyMapComponent : MapComponent
     {
-        public MyMapComponent(Map map) : base(map){}
-        public override void FinalizeInit()
-        {
-            Messages.Message("Success", null, MessageTypeDefOf.PositiveEvent);
-            Find.LetterStack.ReceiveLetter("Success", TemplateDefOf.success_letter.description, TemplateDefOf.success_letter, null);
-        }
-    }
 
-    [StaticConstructorOnStartup]
-    public static class Start
-    {
-        static Start()
-        {
-            Log.Message("Mod template loaded successfully!");
-        }
-    }
+        const int k_ticks_threshold = 1000;
+        int _ticks = 0;
 
+        public MyMapComponent ( Map map ) : base(map) {}
+
+        public override void MapComponentTick ()
+        {
+            if( ++_ticks==k_ticks_threshold )
+            {
+                Task.Run( AllowFreshAnimalCorpses );
+                _ticks = 0;
+            }
+        }
+
+        /// <remarks> List is NOT thread-safe so EXPECT it can be changed by diffent CPU thread, mid-execution, anytime here.</remarks>
+        void AllowFreshAnimalCorpses ()
+        {
+            var playerFaction = Faction.OfPlayer;
+            var list = map.listerThings.ThingsInGroup( ThingRequestGroup.Corpse );
+            for( int i=0 ; i<list.Count ; i++ )
+            {
+                Thing thing = list[i];
+                Corpse corpse = (Corpse) thing;
+                if(
+                        corpse!=null
+                    &&  corpse.IsForbidden(playerFaction)
+                    &&  corpse.GetRotStage()==RotStage.Fresh
+                    &&  corpse.InnerPawn!=null
+                    &&  corpse.InnerPawn.RaceProps!=null
+                    &&  corpse.InnerPawn.RaceProps.Animal
+                )
+                {
+                    corpse.SetForbidden( false );
+                    Messages.Message( text:"FreshCarrionSpotted".Translate((NamedArgument)corpse.LabelShort) , lookTargets:thing , def:MessageTypeDefOf.NeutralEvent );
+                }
+            }
+        }
+
+    }
 }
