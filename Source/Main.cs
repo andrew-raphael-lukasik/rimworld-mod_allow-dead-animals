@@ -77,7 +77,6 @@ namespace AllowDeadAnimals
             public _RingBufferInt16 ( int length ) : base( length:length ) {}
             public bool Contains ( Int16 value )
             {
-                var sw = System.Diagnostics.Stopwatch.StartNew();
                 bool result = false;
                 for( int i=0 ; i<Length ; i++ )
                     result |= _array[i]==value;
