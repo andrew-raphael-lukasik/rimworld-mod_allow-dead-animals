@@ -24,14 +24,7 @@
 
 Made for people tired of constantly manually looking around for animals killed by wild predators to steal their meal.
 
-
-
 Source code:
 	https://github.com/andrew-raphael-lukasik/rimworld-mod_allow-dead-animals
-
-Known issues:
-	- Mod filters corpses by race property "Animal" so some undesirable ones may fit this cathegory, for example, insectoids are considered animals for some reason.
-	- Mod doesn't recognize corpses forbidden manually by player and will re-allow them.
-	- No option to turn it off mid-game (but it's 100% safe to remove it from mod list at any time).
 </description>
 </ModMetaData>
