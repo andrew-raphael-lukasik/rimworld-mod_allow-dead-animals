@@ -36,9 +36,6 @@ namespace AllowDeadAnimals
 
 		public override void MapComponentTick ()
 		{
-			if( !_settings.enabled )
-				return;
-
 			if( ++_ticks==k_ticks_threshold )
 			{
 				Task.Run( AllowFreshAnimalCorpses );
@@ -66,10 +63,11 @@ namespace AllowDeadAnimals
 					Int16 hash = (Int16) corpse.GetHashCode();
 					if( !_allowedAlready.Contains(hash) )
 					{
-						corpse.SetForbidden( false );
+						if( _settings.allow )
+							corpse.SetForbidden( false );
 						_allowedAlready.Push( hash );
 
-						if( _settings.notifications )
+						if( _settings.notify )
 							Messages.Message( text:"FreshCarrionSpotted".Translate((NamedArgument)corpse.LabelShort) , lookTargets:corpse , def:MessageTypeDefOf.NeutralEvent );
 					}
 				}

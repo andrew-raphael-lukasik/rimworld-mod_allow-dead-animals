@@ -26,9 +26,9 @@ namespace AllowDeadAnimals
 				// listing.Label( "Basics" );
 				// listing.GapLine();
 
-				listing.CheckboxLabeled( "Enabled" , ref _settings.enabled, "Is this mod enabled?" );
+				listing.CheckboxLabeled( "Allow" , ref _settings.allow , "Is auto-allow enabled?" );
 				
-				listing.CheckboxLabeled( "Notifications" , ref _settings.notifications, "Are notifications enabled?" );
+				listing.CheckboxLabeled( "Notify" , ref _settings.notify , "Are notifications enabled?" );
 
 				// listing.GapLine();
 				// listing.Label( "Advanced" );
