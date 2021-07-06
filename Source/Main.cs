@@ -6,7 +6,7 @@ using RimWorld;
 
 namespace AllowDeadAnimals
 {
-	public class MyMapComponent : MapComponent
+	public class AllowDeadAnimalsMapComponent : MapComponent
 	{
 		const int k_ticks_threshold = 1000;
 		int _ticks = 0;
@@ -16,7 +16,7 @@ namespace AllowDeadAnimals
 
 		AllowDeadAnimalsModSettings _settings = null;
 
-		public MyMapComponent ( Map map )
+		public AllowDeadAnimalsMapComponent ( Map map )
 			: base(map)
 		{
 			_settings = LoadedModManager

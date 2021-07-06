@@ -5,6 +5,7 @@
 	<author>Andrew Raphael Lukasik</author>
 	<supportedVersions>
 		<li>1.2</li>
+		<li>1.3</li>
 	</supportedVersions>
 
 	<modDependencies>
@@ -22,7 +23,7 @@
 
 	<description>Simple mod that auto-allows freshly killed animals for butchering.
 
-Made for people tired of constantly manually looking around for animals killed by wild predators to steal their meal.
+Made for people tired of constantly looking around for animals killed by wild predators to steal their meal.
 
 Source code:
 	https://github.com/andrew-raphael-lukasik/rimworld-mod_allow-dead-animals

@@ -1,4 +1,4 @@
-"Allow Dead Animals" mod for RimWorld 1.2
+"Allow Dead Animals" mod for RimWorld 1.3, (1.2)[https://github.com/andrew-raphael-lukasik/rimworld-mod_allow-dead-animals/tree/1.2]
 
 https://steamcommunity.com/sharedfiles/filedetails/?id=2403873031
 
