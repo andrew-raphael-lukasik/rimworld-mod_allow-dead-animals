@@ -60,7 +60,7 @@ namespace AllowDeadAnimals
 					&&  corpse.InnerPawn.RaceProps.Animal
 				)
 				{
-					Int16 hash = (Int16) corpse.GetHashCode();
+					Int16 hash = (Int16)( corpse.GetHashCode() % Int16.MaxValue );
 					if( !_allowedAlready.Contains(hash) )
 					{ 
 						_allowedAlready.Push( hash );
