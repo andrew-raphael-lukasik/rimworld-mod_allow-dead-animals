@@ -12,6 +12,7 @@ namespace AllowDeadAnimals
 		public bool notify = true;
 		// public int ticksBetweenUpdates = 1000;
 		// public int allowedAlreadyBufferLength = 128;
+		public float mass_threshold;
 
 		public override void ExposeData ()
 		{
@@ -19,6 +20,7 @@ namespace AllowDeadAnimals
 			Scribe_Values.Look( ref notify , nameof(notify) , defaultValue:true );
 			// Scribe_Values.Look( ref ticksBetweenUpdates , nameof(ticksBetweenUpdates) );
 			// Scribe_Values.Look( ref allowedAlreadyBufferLength , nameof(allowedAlreadyBufferLength) );
+			Scribe_Values.Look( ref mass_threshold , nameof(mass_threshold) , defaultValue:10 );
 			base.ExposeData();
 		}
 

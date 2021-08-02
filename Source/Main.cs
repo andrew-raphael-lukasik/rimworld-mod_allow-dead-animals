@@ -47,6 +47,7 @@ namespace AllowDeadAnimals
 		void AllowFreshAnimalCorpses ()
 		{
 			var playerFaction = Faction.OfPlayer;
+			float massThreshold = _settings.mass_threshold;
 			var list = map.listerThings.ThingsInGroup( ThingRequestGroup.Corpse );
 			for( int i=0 ; i<list.Count ; i++ )
 			{
@@ -58,6 +59,7 @@ namespace AllowDeadAnimals
 					&&  corpse.InnerPawn!=null
 					&&  corpse.InnerPawn.RaceProps!=null
 					&&  corpse.InnerPawn.RaceProps.Animal
+					&&	corpse.GetStatValue(StatDefOf.Mass) > massThreshold
 				)
 				{
 					Int16 hash = (Int16)( corpse.GetHashCode() % Int16.MaxValue );

@@ -30,6 +30,10 @@ namespace AllowDeadAnimals
 				
 				listing.CheckboxLabeled( "Notify" , ref _settings.notify , "Are notifications enabled?" );
 
+				string mass_threshold_label =_settings.mass_threshold.ToString();
+				listing.TextFieldNumericLabeled( "Mass Threshold" , ref _settings.mass_threshold , ref mass_threshold_label );
+				// "Corpses below this mass will be ignored."
+				
 				// listing.GapLine();
 				// listing.Label( "Advanced" );
 				// listing.GapLine();
