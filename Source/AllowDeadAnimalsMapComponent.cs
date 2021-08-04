@@ -15,6 +15,7 @@ namespace AllowDeadAnimals
 		RingBufferInt16 _allowedAlready = null;
 
 		AllowDeadAnimalsModSettings _settings = null;
+		TickManager _tickManager = null;
 
 		public AllowDeadAnimalsMapComponent ( Map map )
 			: base(map)
@@ -23,6 +24,7 @@ namespace AllowDeadAnimals
 				.GetMod<AllowDeadAnimalsMod>()
 				.GetSettings<AllowDeadAnimalsModSettings>();
 			_allowedAlready = new RingBufferInt16( length:128 );
+			_tickManager = Find.TickManager;
 		}
 
 		public override void MapComponentTick ()
@@ -39,6 +41,7 @@ namespace AllowDeadAnimals
 		{
 			var playerFaction = Faction.OfPlayer;
 			float massThreshold = _settings.mass_threshold;
+			int ticksGame = _tickManager.TicksGame;
 			var list = map.listerThings.ThingsInGroup( ThingRequestGroup.Corpse );
 			for( int i=0 ; i<list.Count ; i++ )
 			{
@@ -47,6 +50,7 @@ namespace AllowDeadAnimals
 						corpse!=null
 					&&	corpse.IsForbidden(playerFaction)
 					&&	corpse.GetRotStage()==RotStage.Fresh
+					&&	ticksGame-corpse.timeOfDeath > (k_ticks_threshold*2)
 					&&	corpse.InnerPawn!=null
 					&&	corpse.InnerPawn.RaceProps!=null
 					&&	corpse.InnerPawn.RaceProps.Animal
