@@ -23,15 +23,6 @@ namespace AllowDeadAnimals
 				.GetMod<AllowDeadAnimalsMod>()
 				.GetSettings<AllowDeadAnimalsModSettings>();
 			_allowedAlready = new RingBufferInt16( length:128 );
-			
-			// _allowedAlready, load saved buffer data:
-			// {
-			// 	var src = _settings.allowedAlreadyBufferState;
-			// 	var dst = _allowedAlready.AsArray();
-			// 	int len = Math.Min( dst.Length , src.Count );
-			// 	for( int i=0 ; i<len ; i++ )
-			// 		dst[i] = src[i];
-			// }
 		}
 
 		public override void MapComponentTick ()
@@ -54,11 +45,11 @@ namespace AllowDeadAnimals
 				Corpse corpse = (Corpse) list[i];
 				if(
 						corpse!=null
-					&&  corpse.IsForbidden(playerFaction)
-					&&  corpse.GetRotStage()==RotStage.Fresh
-					&&  corpse.InnerPawn!=null
-					&&  corpse.InnerPawn.RaceProps!=null
-					&&  corpse.InnerPawn.RaceProps.Animal
+					&&	corpse.IsForbidden(playerFaction)
+					&&	corpse.GetRotStage()==RotStage.Fresh
+					&&	corpse.InnerPawn!=null
+					&&	corpse.InnerPawn.RaceProps!=null
+					&&	corpse.InnerPawn.RaceProps.Animal
 					&&	corpse.GetStatValue(StatDefOf.Mass) > massThreshold
 				)
 				{
@@ -76,13 +67,6 @@ namespace AllowDeadAnimals
 				}
 			}
 		}
-
-		// public override void ExposeData ()
-		// {
-		// 	var list = new List<short>( _allowedAlready.AsArray() );
-		// 	Scribe_Collections.Look( ref list , "_allowedAlready._array" , LookMode.Reference );
-		// 	base.ExposeData();
-		// }
 
 	}
 }
