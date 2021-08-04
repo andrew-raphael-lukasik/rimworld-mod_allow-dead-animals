@@ -12,7 +12,7 @@ namespace AllowDeadAnimals
 		int _ticks = 0;
 
 		/// <remarks> A Ring buffer to remember which corpses were allowed already so we don't do that again (in case player forbidden something again). </remarks>
-		_RingBufferInt16 _allowedAlready = null;
+		RingBufferInt16 _allowedAlready = null;
 
 		AllowDeadAnimalsModSettings _settings = null;
 
@@ -22,7 +22,7 @@ namespace AllowDeadAnimals
 			_settings = LoadedModManager
 				.GetMod<AllowDeadAnimalsMod>()
 				.GetSettings<AllowDeadAnimalsModSettings>();
-			_allowedAlready = new _RingBufferInt16( length:128 );
+			_allowedAlready = new RingBufferInt16( length:128 );
 			
 			// _allowedAlready, load saved buffer data:
 			// {
@@ -83,38 +83,6 @@ namespace AllowDeadAnimals
 		// 	Scribe_Collections.Look( ref list , "_allowedAlready._array" , LookMode.Reference );
 		// 	base.ExposeData();
 		// }
-
-		class _RingBuffer <T>
-		{
-			protected readonly T[] _array;
-			protected readonly int Length;
-			protected int _index;
-			[System.Obsolete("don't",true)] public _RingBuffer () {}
-			public _RingBuffer ( int length )
-			{
-				this._array = new T[ length ];
-				this.Length = length;
-				this._index = 0;
-			}
-			public void Push ( T value )
-			{
-				_array[ _index++ ] = value;
-				if( _index==Length ) _index = 0;
-			}
-			public T[] AsArray () => _array;
-		}
-		class _RingBufferInt16 : _RingBuffer<Int16>
-		{
-			public _RingBufferInt16 ( int length ) : base( length:length ) {}
-			public bool Contains ( Int16 value )
-			{
-				bool result = false;
-				for( int i=0 ; i<Length ; i++ )
-					result |= _array[i]==value;
-				// linear search isn't the best, but for 128 elements it takes less than 1/1000 ms (1e-6 s), so it's good enough for now
-				return result;
-			}
-		}
 
 	}
 }
