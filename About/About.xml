@@ -21,11 +21,10 @@
 		<!-- <li>arvkus.template</li> -->
 	</incompatibleWith>
 
-	<description>Simple mod that auto-allows freshly killed animals for butchering.
+	<description>Mod that auto-allows corpses for butchering.
 
-Made for people tired of constantly looking around for animals killed by wild predators to steal their meal.
+Primarly made for people tired of constantly looking around for animals killed by wild predators to steal their meal.
 
-Source code:
-	https://github.com/andrew-raphael-lukasik/rimworld-mod_allow-dead-animals
+Source code: https://github.com/andrew-raphael-lukasik/rimworld-mod_allow-dead-animals
 </description>
 </ModMetaData>
