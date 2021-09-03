@@ -70,7 +70,7 @@ namespace AllowDeadAnimals
 
 					// filter by race
 					&&	( ( (raceProps.Animal?1:0)<<0 | (raceProps.Insect?1:0)<<1 | (raceProps.Humanlike?1:0)<<2 | (raceProps.IsMechanoid?1:0)<<3 ) is int raceMask ) && (raceMask&raceFilter)!=0
-					&&	( (0b10&raceMask)!=0b10 || (0b10&raceFilter)==0b10 )// makes sure insects are not cathegorised as animals
+					&&	( (0b10&raceMask)!=0b10 || (0b10&raceFilter)==0b10 )// makes sure insects are not categorized as animals
 
 					// filter by mass threshold:
 					&&	corpse.GetStatValue(StatDefOf.Mass) > massThreshold
