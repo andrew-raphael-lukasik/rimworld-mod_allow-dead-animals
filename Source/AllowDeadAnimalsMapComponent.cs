@@ -42,6 +42,15 @@ namespace AllowDeadAnimals
 			var playerFaction = Faction.OfPlayer;
 			float massThreshold = _settings.mass_threshold;
 			int ticksGame = _tickManager.TicksGame;
+			
+			bool allow = _settings.allow;
+			bool notify = _settings.notify;
+			bool allowAnimal = _settings.allowAnimal;
+			bool allowInsect = _settings.allowInsect;
+			bool allowHumanlike = _settings.allowHumanlike;
+			bool allowMechanoid = _settings.allowMechanoid;
+
+			int raceFilter = (allowAnimal?1<<0:0) | (allowInsect?1<<1:0) | (allowHumanlike?1<<2:0) | (allowMechanoid?1<<3:0);
 			var list = map.listerThings.ThingsInGroup( ThingRequestGroup.Corpse );
 			for( int i=0 ; i<list.Count ; i++ )
 			{
@@ -50,11 +59,10 @@ namespace AllowDeadAnimals
 						corpse!=null
 					&&	corpse.IsForbidden(playerFaction)
 					&&	corpse.GetRotStage()==RotStage.Fresh
-					&&	ticksGame-corpse.timeOfDeath > (k_ticks_threshold*2)
-					&&	corpse.InnerPawn!=null
-					&&	corpse.InnerPawn.RaceProps!=null
-					&&	corpse.InnerPawn.RaceProps.Animal
-					&&	!corpse.InnerPawn.RaceProps.Insect
+					&&	ticksGame-corpse.timeOfDeath > k_ticks_threshold*2
+					&&	corpse.InnerPawn is var innerPawn && innerPawn!=null
+					&&	corpse.InnerPawn.RaceProps is var raceProps && raceProps!=null
+					&&	( ( (raceProps.Animal?1<<0:0) | (raceProps.Insect?1<<1:0) | (raceProps.Humanlike?1<<2:0) | (raceProps.IsMechanoid?1<<3:0) ) is int raceMask ) && (raceMask&raceFilter)!=0
 					&&	corpse.GetStatValue(StatDefOf.Mass) > massThreshold
 				)
 				{
@@ -63,10 +71,10 @@ namespace AllowDeadAnimals
 					{ 
 						_allowedAlready.Push( hash );
 
-						if( _settings.allow )
+						if( allow )
 							corpse.SetForbidden( false );
 
-						if( _settings.notify )
+						if( notify )
 							Messages.Message( text:"FreshCarrionSpotted".Translate((NamedArgument)corpse.LabelShort) , lookTargets:corpse , def:MessageTypeDefOf.NeutralEvent );
 					}
 				}
