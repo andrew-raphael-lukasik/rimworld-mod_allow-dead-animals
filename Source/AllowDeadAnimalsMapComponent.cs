@@ -69,9 +69,8 @@ namespace AllowDeadAnimals
 					&&	corpse.InnerPawn.RaceProps is var raceProps
 
 					// filter by race
-					&&	( ( (raceProps.Animal?1<<0:0) | (raceProps.Insect?1<<1:0) | (raceProps.Humanlike?1<<2:0) | (raceProps.IsMechanoid?1<<3:0) ) is int raceMask ) && (raceMask&raceFilter)!=0
-
-					&&	( raceProps.IsMechanoid is bool val ) is var val2
+					&&	( ( (raceProps.Animal?1:0)<<0 | (raceProps.Insect?1:0)<<1 | (raceProps.Humanlike?1:0)<<2 | (raceProps.IsMechanoid?1:0)<<3 ) is int raceMask ) && (raceMask&raceFilter)!=0
+					&&	( (0b10&raceMask)!=0b10 || (0b10&raceFilter)==0b10 )// makes sure insects are not cathegorised as animals
 
 					// filter by mass threshold:
 					&&	corpse.GetStatValue(StatDefOf.Mass) > massThreshold
