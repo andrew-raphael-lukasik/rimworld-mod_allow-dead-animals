@@ -49,26 +49,37 @@ namespace AllowDeadAnimals
 			bool allowInsect = _settings.allowInsect;
 			bool allowHumanlike = _settings.allowHumanlike;
 			bool allowMechanoid = _settings.allowMechanoid;
-
 			int raceFilter = (allowAnimal?1<<0:0) | (allowInsect?1<<1:0) | (allowHumanlike?1<<2:0) | (allowMechanoid?1<<3:0);
+			// Messages.Message( $"filter:{Convert.ToString(raceFilter,2)}" , lookTargets:null , def:MessageTypeDefOf.NeutralEvent );
+
 			var list = map.listerThings.ThingsInGroup( ThingRequestGroup.Corpse );
 			for( int i=0 ; i<list.Count ; i++ )
 			{
-				Corpse corpse = (Corpse) list[i];
 				if(
-						corpse!=null
+						(Corpse) list[i] is Corpse corpse
 					&&	corpse.IsForbidden(playerFaction)
+
+					// make sure it's fresh one:
 					&&	corpse.GetRotStage()==RotStage.Fresh
+
+					// make sure corpse is not too fresh (so fresh that is still being eaten by it's predator):
 					&&	ticksGame-corpse.timeOfDeath > k_ticks_threshold*2
-					&&	corpse.InnerPawn is var innerPawn && innerPawn!=null
-					&&	corpse.InnerPawn.RaceProps is var raceProps && raceProps!=null
+
+					&&	corpse.InnerPawn is var innerPawn
+					&&	corpse.InnerPawn.RaceProps is var raceProps
+
+					// filter by race
 					&&	( ( (raceProps.Animal?1<<0:0) | (raceProps.Insect?1<<1:0) | (raceProps.Humanlike?1<<2:0) | (raceProps.IsMechanoid?1<<3:0) ) is int raceMask ) && (raceMask&raceFilter)!=0
+
+					&&	( raceProps.IsMechanoid is bool val ) is var val2
+
+					// filter by mass threshold:
 					&&	corpse.GetStatValue(StatDefOf.Mass) > massThreshold
 				)
 				{
 					Int16 hash = (Int16)( corpse.GetHashCode() % Int16.MaxValue );
 					if( !_allowedAlready.Contains(hash) )
-					{ 
+					{
 						_allowedAlready.Push( hash );
 
 						if( allow )
@@ -76,6 +87,7 @@ namespace AllowDeadAnimals
 
 						if( notify )
 							Messages.Message( text:"FreshCarrionSpotted".Translate((NamedArgument)corpse.LabelShort) , lookTargets:corpse , def:MessageTypeDefOf.NeutralEvent );
+							// Messages.Message( text:$"{corpse.LabelShort} [ {(raceProps.Animal?"animal":"")}{(raceProps.Insect?" insect":"")}{(raceProps.Humanlike?" human":"")}{(raceProps.IsMechanoid?" mech":"")} ] MASK:{Convert.ToString(raceMask,2)} AND:{Convert.ToString(AND,2)}" , lookTargets:corpse , def:MessageTypeDefOf.NeutralEvent );
 					}
 				}
 			}
