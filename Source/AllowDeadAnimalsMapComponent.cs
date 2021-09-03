@@ -54,6 +54,7 @@ namespace AllowDeadAnimals
 					&&	corpse.InnerPawn!=null
 					&&	corpse.InnerPawn.RaceProps!=null
 					&&	corpse.InnerPawn.RaceProps.Animal
+					&&	!corpse.InnerPawn.RaceProps.Insect
 					&&	corpse.GetStatValue(StatDefOf.Mass) > massThreshold
 				)
 				{
