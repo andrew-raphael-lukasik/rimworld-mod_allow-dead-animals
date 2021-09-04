@@ -49,7 +49,7 @@ namespace AllowDeadAnimals
 			bool allowInsect = _settings.allowInsect;
 			bool allowHumanlike = _settings.allowHumanlike;
 			bool allowMechanoid = _settings.allowMechanoid;
-			int raceFilter = (allowAnimal?1<<0:0) | (allowInsect?1<<1:0) | (allowHumanlike?1<<2:0) | (allowMechanoid?1<<3:0);
+			int raceFilter = (allowAnimal?1:0)<<0 | (allowInsect?1:0)<<1 | (allowHumanlike?1:0)<<2 | (allowMechanoid?1:0)<<3;
 			// Messages.Message( $"filter:{Convert.ToString(raceFilter,2)}" , lookTargets:null , def:MessageTypeDefOf.NeutralEvent );
 
 			var list = map.listerThings.ThingsInGroup( ThingRequestGroup.Corpse );
