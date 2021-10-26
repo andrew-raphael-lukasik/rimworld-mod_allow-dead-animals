@@ -77,7 +77,7 @@ namespace AllowDeadAnimals
 					&&	corpse.GetStatValue(StatDefOf.Mass) > massThreshold
 				)
 				{
-					Int16 hash = (Int16)( corpse.GetHashCode() % Int16.MaxValue );
+					Int16 hash = (Int16)( corpse.thingIDNumber % Int16.MaxValue );
 					if( !_allowedAlready.Contains(hash) )
 					{
 						_allowedAlready.Push( hash );
