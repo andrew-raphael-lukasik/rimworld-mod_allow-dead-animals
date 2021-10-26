@@ -90,5 +90,11 @@ namespace AllowDeadAnimals
 			}
 		}
 
+		public override void ExposeData ()
+		{
+			Scribe_Collections.Look( ref _allowedAlready , false , nameof(_allowedAlready) , LookMode.Reference );
+			base.ExposeData();
+		}
+
 	}
 }
