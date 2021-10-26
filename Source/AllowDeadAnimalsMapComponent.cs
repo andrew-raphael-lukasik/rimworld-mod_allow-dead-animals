@@ -11,8 +11,8 @@ namespace AllowDeadAnimals
 		const int k_ticks_threshold = 1000;
 		int _ticks = 0;
 
-		/// <remarks> A Ring buffer to remember which corpses were allowed already so we don't do that again (in case player forbidden something again). </remarks>
-		RingBufferInt16 _allowedAlready = null;
+		/// <remarks> A HashSet to list corpses that were allowed already so we don't do that again. </remarks>
+		HashSet<Corpse> _allowedAlready;
 
 		AllowDeadAnimalsModSettings _settings = null;
 		TickManager _tickManager = null;
@@ -23,7 +23,7 @@ namespace AllowDeadAnimals
 			_settings = LoadedModManager
 				.GetMod<AllowDeadAnimalsMod>()
 				.GetSettings<AllowDeadAnimalsModSettings>();
-			_allowedAlready = new RingBufferInt16( length:128*3 );
+			_allowedAlready = new HashSet<Corpse>();
 			_tickManager = Find.TickManager;
 		}
 
@@ -58,6 +58,7 @@ namespace AllowDeadAnimals
 				if(
 						(Corpse) list[i] is Corpse corpse
 					&&	corpse.IsForbidden(playerFaction)
+					&&	!_allowedAlready.Contains(corpse)
 
 					// make sure it's fresh one:
 					&&	corpse.GetRotStage()==RotStage.Fresh
@@ -77,18 +78,14 @@ namespace AllowDeadAnimals
 					&&	corpse.GetStatValue(StatDefOf.Mass) > massThreshold
 				)
 				{
-					Int16 hash = (Int16)( corpse.thingIDNumber % Int16.MaxValue );
-					if( !_allowedAlready.Contains(hash) )
-					{
-						_allowedAlready.Push( hash );
+					_allowedAlready.Add( corpse );
 
-						if( allow )
-							corpse.SetForbidden( false );
+					if( allow )
+						corpse.SetForbidden( false );
 
-						if( notify )
-							Messages.Message( text:"FreshCarrionSpotted".Translate((NamedArgument)corpse.LabelShort) , lookTargets:corpse , def:MessageTypeDefOf.NeutralEvent );
-							// Messages.Message( text:$"{corpse.LabelShort} [ {(raceProps.Animal?"animal":"")}{(raceProps.Insect?" insect":"")}{(raceProps.Humanlike?" human":"")}{(raceProps.IsMechanoid?" mech":"")} ] MASK:{Convert.ToString(raceMask,2)} AND:{Convert.ToString(AND,2)}" , lookTargets:corpse , def:MessageTypeDefOf.NeutralEvent );
-					}
+					if( notify )
+						Messages.Message( text:"FreshCarrionSpotted".Translate((NamedArgument)corpse.LabelShort) , lookTargets:corpse , def:MessageTypeDefOf.NeutralEvent );
+						// Messages.Message( text:$"{corpse.LabelShort} [ {(raceProps.Animal?"animal":"")}{(raceProps.Insect?" insect":"")}{(raceProps.Humanlike?" human":"")}{(raceProps.IsMechanoid?" mech":"")} ] MASK:{Convert.ToString(raceMask,2)} AND:{Convert.ToString(AND,2)}" , lookTargets:corpse , def:MessageTypeDefOf.NeutralEvent );
 				}
 			}
 		}
