@@ -31,8 +31,7 @@ namespace AllowDeadAnimals
 				listing.EndSection( section );
 
 				string mass_threshold_label =_settings.mass_threshold.ToString();
-				listing.TextFieldNumericLabeled( "Mass Threshold" , ref _settings.mass_threshold , ref mass_threshold_label );
-				// "Corpses below this mass will be ignored."
+				listing.TextFieldNumericLabeled( "Ignore corpses lighter than:" , ref _settings.mass_threshold , ref mass_threshold_label );
 			}
 			listing.End();
 			base.DoSettingsWindowContents(rect);
