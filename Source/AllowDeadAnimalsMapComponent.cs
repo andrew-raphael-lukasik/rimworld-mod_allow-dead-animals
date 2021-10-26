@@ -23,7 +23,7 @@ namespace AllowDeadAnimals
 			_settings = LoadedModManager
 				.GetMod<AllowDeadAnimalsMod>()
 				.GetSettings<AllowDeadAnimalsModSettings>();
-			_allowedAlready = new RingBufferInt16( length:128 );
+			_allowedAlready = new RingBufferInt16( length:128*3 );
 			_tickManager = Find.TickManager;
 		}
 
