@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Collections.Generic;
 using Verse;
 using RimWorld;
@@ -39,7 +38,7 @@ namespace AllowDeadAnimals
 		/// <remarks> List is NOT thread-safe so EXPECT it can be changed by diffent CPU thread, mid-execution, anytime here.</remarks>
 		void AllowFreshAnimalCorpses ()
 		{
-			var playerFaction = Faction.OfPlayer;
+			Faction playerFaction = Faction.OfPlayer;
 			float massThreshold = _settings.mass_threshold;
 			int ticksGame = _tickManager.TicksGame;
 			
