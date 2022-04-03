@@ -51,6 +51,8 @@ namespace AllowDeadAnimals
 			int raceFilter = (allowAnimal?1:0)<<0 | (allowInsect?1:0)<<1 | (allowHumanlike?1:0)<<2 | (allowMechanoid?1:0)<<3;
 			// Messages.Message( $"filter:{Convert.ToString(raceFilter,2)}" , lookTargets:null , def:MessageTypeDefOf.NeutralEvent );
 
+			if( !allow && !notify ) return;// lets not fill _allowedAlready for nothing
+
 			var list = map.listerThings.ThingsInGroup( ThingRequestGroup.Corpse );
 			for( int i=0 ; i<list.Count ; i++ )
 			{
