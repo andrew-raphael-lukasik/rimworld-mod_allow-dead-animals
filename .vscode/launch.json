@@ -5,7 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Rimworld Mod Project",
+            "name": "Rimworld Mod Project (Linux)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build dll",
+            "args": [],
+            "program": "../../RimWorldLinux",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "internalConsoleOptions":"neverOpen",
+            "stopAtEntry": true
+        },
+        {
+            "name": "Rimworld Mod Project (Windows)",
             "type": "clr",
             "request": "launch",
             "preLaunchTask": "build dll",
@@ -15,6 +27,20 @@
             "console": "internalConsole",
             "internalConsoleOptions":"neverOpen",
             "stopAtEntry": true
+        },
+
+        { // ignore
+            "name": ".NET Framework Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickProcess}",
+            "symbolOptions": {
+                "searchPaths": [
+                    ".vscode/obj/Debug/*"
+                ],
+                "searchMicrosoftSymbolServer": false,
+                "searchNuGetOrgSymbolServer": false
+            }
         }
     ]
 }

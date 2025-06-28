@@ -20,15 +20,27 @@
  	<ItemGroup>
 	 	<!-- Mod -->
 	 	<Compile Include="../Source/*" />
-		
-	 	<!-- Rimworld -->
-	 	<Reference Include="../../../RimWorldWin64_Data/Managed/*.dll">
+	</ItemGroup>
+
+	<!-- Cross-platform RimWorld references -->
+	<!-- Windows: RimWorldWin64_Data/Managed/ -->
+	<!-- Linux: RimWorldLinux_Data/Managed/ -->
+	<ItemGroup Condition="'$(OS)' == 'Windows_NT'">
+		<Reference Include="../../../RimWorldWin64_Data/Managed/*.dll">
 			<Private>False</Private>
 		</Reference>
-
-		<!-- Harmony -->
-		<!-- <Reference Include="../../Harmony/v1.1/Assemblies/0Harmony.dll">
-			<Private>False</Private>
-		</Reference> -->
 	</ItemGroup>
+
+	<ItemGroup Condition="'$(OS)' != 'Windows_NT'">
+		<Reference Include="../../../RimWorldLinux_Data/Managed/*.dll">
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+
+	<!-- Harmony (uncomment if needed) -->
+	<!-- <ItemGroup>
+		<Reference Include="../../Harmony/v1.1/Assemblies/0Harmony.dll">
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup> -->
 </Project>
